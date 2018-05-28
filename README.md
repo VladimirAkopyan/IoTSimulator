@@ -49,7 +49,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
 ```
-![In fact we literally use the podNames as DeviceID for IoThub - setup separately](Images/setupIoTHub.png "In fact we literally use the podNames as DeviceID for IoThub - setup separately")
+![In fact we literally use the podNames as DeviceID for IoThub - setup separately](Images/setupIoTHub.PNG "In fact we literally use the podNames as DeviceID for IoThub - setup separately")
 
 ## Managing Settings and Credentials
 Sometimes we want to change settings, for example simulate a high-load situation, by cranking up the data rate on each device. We want to be able to change settings without touching the source. Also we don’t want to store auth credentials in the source, so let’s explain how we do that properly in Kubernetes.
@@ -88,14 +88,7 @@ spec:
     spec:
       containers:
         - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "sh", "-c"]
-          args:
-          - while true; do
-              echo -en '\n';
-              printenv POD_NAME;
-              sleep 10;
-            done;
+          image: clumsypilot/iotsimulator
           envFrom:
             - configMapRef:
                 name: sim-sensor-settings
@@ -146,14 +139,7 @@ spec:
             secretName: sim-sensor-credentials      
         containers:
         - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "sh", "-c"]
-          args:
-          - while true; do
-              echo -en '\n';
-              printenv POD_NAME;
-              sleep 10;
-            done;
+          image: clumsypilot/iotsimulator
           envFrom:
             - configMapRef:
                 name: sim-sensor-settings
