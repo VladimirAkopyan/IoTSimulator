@@ -1,4 +1,5 @@
 ![5 simulated devices running form a StatefulSet](Images/StatefulSet.png "5 simulated devices running form a StatefulSet")
+![5 simulated devices have different configurations](Images/Sensorsandsettings.png "5 simulated devices have different configurations")
 # Simulating IoT devices with Kubernetes
 We often need to simulate devices — sensors and vehicles — to test our IoT systems, see how well they manage load, how they deal with errors, etc.
 Each simulated device pretends to be an independent entity with it’s own settings i.e. battery level, upload frequency, service outages, persistent memory, etc.
