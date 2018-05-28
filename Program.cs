@@ -24,7 +24,8 @@ namespace SimulatedDevice
             Console.WriteLine($"Application Insights Key: {config["APPINSIGHTS_INSTRUMENTATIONKEY"]}");
             Console.WriteLine($"Image delay is: {config["ImageDelay"]}");
             Console.WriteLine($"Readings delay is: {config["ReadingsDelay"]}");
-            Console.WriteLine($"IoT Credentials are: {config[$"IoTHubCreds:{config["POD_NAME"]}"]}");
+            string devicekeyPath = $"IoTHubCreds:{config["POD_NAME"]}"; 
+            Console.WriteLine($"IoT Credentials are: {config[devicekeyPath]}");
             Thread.Sleep(Timeout.Infinite);
             return 0;
         }
