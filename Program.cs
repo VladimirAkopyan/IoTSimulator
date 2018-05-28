@@ -16,7 +16,7 @@ namespace SimulatedDevice
             // Adding all environment variables into IConfiguration
             IConfiguration config = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) //Only used for dev environment
-                .AddJsonFile("/secrets/sim-sensor-credentials.json", optional: true) //Only present when in kubernetes
+                .AddJsonFile("/secrets/IoTHubCredentials.json", optional: true) //Only present when in kubernetes
                 .AddEnvironmentVariables() //Container Parameters
                 .Build();
 
