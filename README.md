@@ -35,14 +35,7 @@ spec:
     spec:
       containers:
         - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "sh", "-c"]
-          args:
-          - while true; do
-              echo -en '\n';
-              printenv POD_NAME;
-              sleep 10;
-            done;
+          image: clumsypilot/iotsimulator
           env:
             - name: POD_NAME
               valueFrom:
@@ -177,5 +170,9 @@ Console.WriteLine($"Pod Name is: {config["POD_NAME"]}");
 Console.WriteLine($"Application Insights Key: {config["APPINSIGHTS_INSTRUMENTATIONKEY"]}");
 Console.WriteLine($"Image delay is: {config["ImageDelay"]}");
 Console.WriteLine($"Readings delay is: {config["ReadingsDelay"]}");
-Console.WriteLine($"IoT Credentials are: {config[$"IoTHubCreds:{config["POD_NAME"]}"]}");
+string devicekeyPath = $"IoTHubCreds:{config["POD_NAME"]}"; 
+Console.WriteLine($"IoT Credentials are: {config[devicekeyPath]}");
 ```
+## Debugging
+I've built this using alpine container, they are small but don't contain normal bash. You can exec into them using:
+`kubectl exec -it simulated-sensors-4 /bin/sh`
