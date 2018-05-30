@@ -1,5 +1,15 @@
 ![5 simulated devices running form a StatefulSet](Images/StatefulSet.png "5 simulated devices running form a StatefulSet")
 ![5 simulated devices have different configurations](Images/Sensorsandsettings.png "5 simulated devices have different configurations")
+# To Deploy: 
+Download credentials.json
+```
+PS C:\Users\vladi\Downloads> kubectl create secret generic sim-sensor-credentials --from-file=IoTHubCredentials.json
+secret "sim-sensor-credentials" created
+PS C:\Users\vladi\Downloads> kubectl create -f https://raw.githubusercontent.com/VladimirAkopyan/IoTSimulator/master/Kubernetes.yaml
+configmap "sim-sensor-settings" created
+service "simulated-sensors-service" created
+statefulset "simulated-sensors" created
+```
 # Simulating IoT devices with Kubernetes
 We often need to simulate devices — sensors and vehicles — to test our IoT systems, see how well they manage load, how they deal with errors, etc.
 Each simulated device pretends to be an independent entity with it’s own settings i.e. battery level, upload frequency, service outages, persistent memory, etc.
@@ -120,7 +130,7 @@ Verify that the settings are being attached to the pod correctly:
 ![confirm configmap works in kubernetes dashboard](Images/EnvironmentalVariables.png "confirm configmap works in kubernetes dashboard")
 
 ## Provide Credentials through Secrets
-Secrets are better at storing sensitive data, and as we have a large amount of it, it’s best to provide it as a file, `credentials.json`
+Secrets are better at storing sensitive data, and as we have a large amount of it, it’s best to provide it as a file, `IoTHubCredentials.json`
 ```JSON
 {
     "Credentials": {
@@ -133,7 +143,7 @@ Secrets are better at storing sensitive data, and as we have a large amount of i
 }
 ```
 Just like CongfigMaps, secrets are key-value pairs. In the config map we specified each key-value pair individually.In this case the filename is the key, and it’s contents are the “value”. You can have several files in one secret.
-``` kubectl create secret generic sim-sensor-credentials --from-file=./credentials.json```
+``` kubectl create secret generic sim-sensor-credentials --from-file=./IoTHubCredentials.json```
 In this case we actually want to provide this information as a file, so we will do that by mounting the secret as a volume. When you do that, each key stored in the secret is represented as a file.
 > Paths: linux path starting with s slash, like /secrets/file.json is absolute, whereas secrets/file.json is relative to current application directory. 
 ```yaml
@@ -197,7 +207,7 @@ They help manage configuration of the application — ConfigutationBuilder c
 ```C#
 IConfiguration config = new ConfigurationBuilder()
 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) /
-.AddJsonFile("/secrets/credentials.json", optional: true) 
+.AddJsonFile("/secrets/IoTHubCredentials.json", optional: true) 
 .AddEnvironmentVariables()
 .Build();
 ```
