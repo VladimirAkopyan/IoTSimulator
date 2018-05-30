@@ -1,7 +1,7 @@
 ![5 simulated devices running form a StatefulSet](Images/StatefulSet.png "5 simulated devices running form a StatefulSet")
 ![5 simulated devices have different configurations](Images/Sensorsandsettings.png "5 simulated devices have different configurations")
 # To Deploy: 
-Download credentials.json
+Download IoTHubCredentials.json
 ```
 PS C:\Users\vladi\Downloads> kubectl create secret generic sim-sensor-credentials --from-file=IoTHubCredentials.json
 secret "sim-sensor-credentials" created
