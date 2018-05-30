@@ -8,12 +8,24 @@ data:
   ReadingsDelay: "30"
   ImageDelay: "3600"
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulated-sensors-service
+  labels:
+    app: simulated-sensors-service
+spec:
+  clusterIP: None
+  selector:
+    app: simulated-sensors-service
+---   
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: simulated-sensors
 spec: 
   replicas: 5
+  serviceName: "simulated-sensors-service"
   selector:
     matchLabels:
       app: sim-sensor
@@ -28,19 +40,11 @@ spec:
             secretName: sim-sensor-credentials
       containers:
         - name: test-container
-          image: k8s.gcr.io/busybox
-          command: [ "sh", "-c"]
-          args:
-          - while true; do
-              echo -en '\n';
-              printenv NODE_NAME POD_NAME POD_NAMESPACE;
-              printenv POD_IP POD_SERVICE_ACCOUNT;
-              sleep 10;
-            done;
+          image: clumsypilot/iotsimulator
           resources:
             requests:
               memory: "32Mi"
-              cpu: "125m"
+              cpu: "50m"
             limits:
               memory: "64Mi"
               cpu: "250m"
