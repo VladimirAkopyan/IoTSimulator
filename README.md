@@ -20,12 +20,24 @@ Below is a definition for a StatefulSet that provides name of the pod to the app
 As long as your list of credentials is large enough, and your cluster has enough capacity, there is no limit to how many completely independent devices you can simulate by just changing one number at any time.
 
 ```yaml 
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulated-sensors-service
+  labels:
+    app: simulated-sensors-service
+spec:
+  clusterIP: None
+  selector:
+    app: simulated-sensors-service
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: simulated-sensors
 spec: 
   replicas: 5
+  serviceName: "simulated-sensors-service"
   selector:
     matchLabels:
       app: sim-sensor
@@ -66,12 +78,24 @@ data:
 Under the data section, add whatever settings you wish to manage. To create this config map for the cluster: `kubectl create -f ConfigMap.yaml` 
 Also make changes to the StatefulSet definition as follows:
 ```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulated-sensors-service
+  labels:
+    app: simulated-sensors-service
+spec:
+  clusterIP: None
+  selector:
+    app: simulated-sensors-service
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: simulated-sensors
 spec: 
   replicas: 5
+  serviceName: "simulated-sensors-service"
   selector:
     matchLabels:
       app: sim-sensor
@@ -113,12 +137,24 @@ Just like CongfigMaps, secrets are key-value pairs. In the config map we specifi
 In this case we actually want to provide this information as a file, so we will do that by mounting the secret as a volume. When you do that, each key stored in the secret is represented as a file.
 > Paths: linux path starting with s slash, like /secrets/file.json is absolute, whereas secrets/file.json is relative to current application directory. 
 ```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: simulated-sensors-service
+  labels:
+    app: simulated-sensors-service
+spec:
+  clusterIP: None
+  selector:
+    app: simulated-sensors-service
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: simulated-sensors
 spec: 
   replicas: 5
+  serviceName: "simulated-sensors-service"
   selector:
     matchLabels:
       app: sim-sensor
