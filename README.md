@@ -193,7 +193,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.name
 ```
-Now you can read the file in `/secrets/credentials.json`
+Now you can read the file in `/secrets/IoTHubCredentials.json`
  
 ## Read this data with .Net Core
 The easiest way to read this information in .Net is using nuget packages:
