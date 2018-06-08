@@ -14,8 +14,6 @@ statefulset "simulated-sensors" created
 We often need to simulate devices — sensors and vehicles — to test our IoT systems, see how well they manage load, how they deal with errors, etc.
 Each simulated device pretends to be an independent entity with it’s own settings i.e. battery level, upload frequency, service outages, persistent memory, etc.
 
-I’ve previously done it in **Azure** using **Webjobs**, and it works if you just need to simulate one or two devices, but it breaks down once you are past that point.
-
 But we found that with **StatefulSets** in **Kubernetes** it’s actually super easy. With it we can manage credentials for hundreds of simulated devices and scale up/down as needed. What we are doing now would be a torture with webjobs.
 
 ## What are StatefulSets?
